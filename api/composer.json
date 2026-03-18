@@ -1,0 +1,17 @@
+{
+    "name": "reservation/api",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Reservation\\Api\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sorane",
+            "email": "sacha.desquesnes@gmail.com"
+        }
+    ],
+    "require": {}
+}
