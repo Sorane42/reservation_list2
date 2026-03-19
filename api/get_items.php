@@ -6,7 +6,7 @@ require_once 'db_connect.php';
 try {
 
     // On sélectionne les colonnes dans la table 'objet'
-    $stmt = $pdo->query("SELECT id, nom, type, description, statut FROM objet");
+    $stmt = $pdo->query("SELECT id, nom, type, description, statut, fin_reservation FROM objet");
     $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode($items);
