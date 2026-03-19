@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
 
 function App() {
   const [items, setItems] = useState([]);
 
-  // Récupération des données depuis PHP
   useEffect(() => {
     fetch('http://localhost/reservation_list2/api/get_items.php')
       .then(res => res.json())
@@ -13,35 +11,38 @@ function App() {
   }, []);
 
   return (
-    <Container className="mt-5">
-      <h2 className="mb-4">Catalogue d'Objets</h2>
-      <Row>
+    <div className="container py-5">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="fw-bold text-dark">Catalogue d'Objets</h2>
+        <button className="btn btn-primary rounded-pill px-4">+ Ajouter un objet</button>
+      </div>
+
+      <div className="row">
         {items.map((item) => (
-          <Col key={item.id} md={4} className="mb-4">
-            <Card className="shadow-sm border-0">
-              <Card.Body>
-                <Card.Title>{item.nom}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">ID: {item.id}</Card.Subtitle>
-                <div className="my-3">
-                  <Badge bg={item.statut === "Disponible" ? "success" : "danger"}>
+          <div key={item.id} className="col-md-4 mb-4">
+            <div className="card border-0 shadow-sm h-100">
+              <div className="card-body p-4">
+                <h5 className="card-title fw-bold">{item.nom}</h5>
+                <p className="text-muted small">ID: {item.id}</p>
+
+                <div className="mb-3">
+                  <span className={`badge rounded-pill ${item.statut === "Disponible" ? "bg-success" : "bg-danger"}`}>
                     {item.statut}
-                  </Badge>
-                  <span className="ms-2 text-secondary text-sm">Quantité: {item.quantite}</span>
+                  </span>
+                  <span className="ms-2 text-secondary small">Type: {item.type}</span>
                 </div>
 
-                <Button
-                  variant="primary"
-                  className="w-100"
-                  disabled={item.statut !== "Disponible"}
+                <button
+                  className={`btn w-100 fw-bold ${item.statut === "Disponible" ? "btn-primary" : "btn-secondary disabled"}`}
                 >
                   {item.statut === "Disponible" ? "Réserver" : "Indisponible"}
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
+                </button>
+              </div>
+            </div>
+          </div>
         ))}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 }
 

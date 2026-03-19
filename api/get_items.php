@@ -2,7 +2,6 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
-// Simulation de données (bientôt remplacé par MySQL)
 $items = [
     [
         "id" => "T-001",
