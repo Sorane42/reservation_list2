@@ -33,6 +33,20 @@ function App() {
     });
   };
 
+  const handleReserve = (id) => {
+  fetch('http://localhost/reservation_list2/api/reserve_item.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: id }),
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log(data.message);
+    fetchItems(); // On rafraîchit la liste pour voir le changement de couleur !
+  })
+  .catch(err => console.error("Erreur réservation :", err));
+};
+
   return (
     <Container className="py-5">
       <div className="d-flex justify-content-between align-items-center mb-5">
@@ -58,14 +72,13 @@ function App() {
                   {item.description || "Aucune description fournie."}
                 </Card.Text>
                 <hr className="my-3 opacity-10" />
-                <Button
-                  variant={item.statut === "Disponible" ? "outline-primary" : "secondary"}
-                  className="w-100 fw-bold"
+                <button
+                  className={`btn w-100 fw-bold mt-3 ${item.statut === "Disponible" ? "btn-outline-primary" : "btn-secondary disabled"}`}
+                  onClick={() => handleReserve(item.id)}
                   disabled={item.statut !== "Disponible"}
-                  style={{ borderRadius: '10px' }}
-                >
-                  {item.statut === "Disponible" ? "Réserver cet objet" : "Indisponible"}
-                </Button>
+                  >
+                  {item.statut === "Disponible" ? "Réserver" : "Indisponible"}
+                </button>
               </Card.Body>
             </Card>
           </Col>

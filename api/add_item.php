@@ -12,15 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-require_once 'db_config.php';
+require_once 'db_connect.php';
 
 $content = file_get_contents("php://input");
 $data = json_decode($content, true);
 
 if (isset($data['nom'])) {
     try {
-        $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // ATTENTION : Vérifie que tes colonnes s'appellent bien comme ça
         $sql = "INSERT INTO objet (nom, type, description, statut) VALUES (:nom, :type, :description, :statut)";
