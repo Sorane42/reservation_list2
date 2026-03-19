@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form, Card, Badge, Container, Row, Col } from 'react-bootstrap';
 
+// Composant principal de l'application de gestion des réservations d'objets
 function App() {
+  // États pour la liste des objets et la gestion des modales
   const [items, setItems] = useState([]);
   const [show, setShow] = useState(false);
   const [newObjet, setNewObjet] = useState({ nom: '', type: 'Autre', description: '', statut: 'Disponible' });
 
+  // Gestionnaires pour la modale d'ajout d'objet
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Fonction pour récupérer la liste des objets depuis l'API
   const fetchItems = () => {
     fetch('http://localhost/reservation_list2/api/get_items.php')
       .then(res => res.json())
@@ -18,6 +22,7 @@ function App() {
 
   useEffect(() => { fetchItems(); }, []);
 
+  // Gestionnaire pour soumettre le formulaire d'ajout d'objet
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch('http://localhost/reservation_list2/api/add_item.php', {
@@ -33,10 +38,12 @@ function App() {
     });
   };
 
+  // États pour la modale de réservation
   const [showReserveModal, setShowReserveModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [dateFin, setDateFin] = useState('');
 
+  // Fonctions pour gérer la réservation d'un objet
   const openReserveModal = (id) => {
     setSelectedItemId(id);
     setShowReserveModal(true);
@@ -57,6 +64,7 @@ function App() {
     });
   };
 
+  // Fonction pour obtenir l'icône Bootstrap en fonction du type d'objet
   const getIconForType = (type) => {
     switch (type) {
       case 'Voiture':
@@ -73,7 +81,6 @@ function App() {
     }
   };
 
-  // Filtres
   const [filterType, setFilterType] = useState('Tous');
   const [filterStatus, setFilterStatus] = useState('Tous');
   const filteredItems = items.filter(item => {
@@ -91,6 +98,7 @@ function App() {
         </Button>
       </div>
 
+      {/* Section des filtres */}
       <div className="mb-4">
   {/* Filtres par Type */}
   <div className="d-flex flex-wrap gap-2 mb-3">
@@ -128,6 +136,7 @@ function App() {
     </div>
   </div>
 
+      {/* Liste des objets filtrés */}
       <Row>
         {filteredItems.map((item) => (
           <Col key={item.id} md={4} className="mb-4">
@@ -163,7 +172,7 @@ function App() {
         ))}
       </Row>
 
-      {/* MODALE DE FORMULAIRE */}
+      {/* Modale pour ajouter un nouvel objet */}
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton className="border-0 pb-0">
           <Modal.Title className="fw-bold">Nouvel Objet</Modal.Title>
@@ -209,7 +218,7 @@ function App() {
         </Modal.Body>
       </Modal>
 
-      {/* MODALE DE CHOIX DE DATE */}
+      {/* Modale pour réserver un objet */}
       <Modal show={showReserveModal} onHide={() => setShowReserveModal(false)} centered>
       <Modal.Header closeButton>
         <Modal.Title>Date de fin</Modal.Title>

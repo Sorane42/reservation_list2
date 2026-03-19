@@ -6,13 +6,13 @@ header("Content-Type: application/json; charset=UTF-8");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') exit;
 
-require_once 'db_connect.php'; // On utilise ton fichier de connexion centralisé
+require_once 'db_connect.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (isset($data['id']) && isset($data['date_fin'])) {
     try {
-        // On met à jour le statut ET la date de fin
+        // update statut ET la date de fin
         $sql = "UPDATE objet SET statut = 'Réservé', fin_reservation = :date_fin WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([

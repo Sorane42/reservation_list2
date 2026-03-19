@@ -1,5 +1,4 @@
 <?php
-// On force l'affichage des erreurs pour le débug
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -19,8 +18,6 @@ $data = json_decode($content, true);
 
 if (isset($data['nom'])) {
     try {
-
-        // ATTENTION : Vérifie que tes colonnes s'appellent bien comme ça
         $sql = "INSERT INTO objet (nom, type, description, statut) VALUES (:nom, :type, :description, :statut)";
         $stmt = $pdo->prepare($sql);
 
@@ -34,7 +31,6 @@ if (isset($data['nom'])) {
         echo json_encode(["status" => "success", "message" => "Objet ajouté"]);
 
     } catch(PDOException $e) {
-        // Si ça plante ici, on renvoie l'erreur en JSON proprement
         echo json_encode(["status" => "error", "message" => $e->getMessage()]);
     }
 } else {
